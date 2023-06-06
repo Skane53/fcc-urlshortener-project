@@ -39,7 +39,7 @@ app.get("/api/hello", function (req, res) {
 app.post("/api/shorturl", (req, res) => {
   const regexCheck = validUrl.isUri(req.body.url);
   const urlToCheck = new URL(regexCheck).hostname;
-  console.log(urlToCheck);
+  //console.log(urlToCheck);
 
   // The urlToCheck is the DNS, the hostname.
 
