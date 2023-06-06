@@ -44,11 +44,11 @@ app.post("/api/shorturl", (req, res) => {
   }
   // The urlToCheck is the DNS, the hostname.
 
-  dns.lookup(urlToCheck.toLowerCase(), (err, addresses, family) => {
+  dns.lookup(urlToCheck, (err, addresses, family) => {
     // if URL not valid, return error object.
     //console.log(err);
     if (err || req.body.url == false || !regexCheck) {
-      res.send({ error: "Invalid URL" });
+      res.json({ error: "invalid url" });
     } else {
       // If the url is already in the DB, the program will return it with the short url already added
 
