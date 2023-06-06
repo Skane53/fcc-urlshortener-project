@@ -54,7 +54,7 @@ app.post("/api/shorturl", (req, res) => {
 
       ShortUrl.find({ original_url: req.body.url }).then((data) => {
         if (data[0]) {
-          res.send({
+          res.json({
             original_url: data[0]["original_url"],
             shortUrl: data[0]["shortUrl"],
           });
@@ -71,7 +71,7 @@ app.post("/api/shorturl", (req, res) => {
             const newShortUrl = new ShortUrl({ original_url, shortUrl });
             //console.log(newShortUrl);
             newShortUrl.save();
-            res.send({ original_url, shortUrl });
+            res.json({ original_url, shortUrl });
           });
         }
       });
@@ -85,7 +85,7 @@ app.get("/api/shorturl/:shortUrl", (req, res) => {
     if (data[0]) {
       res.redirect(data[0]["original_url"]);
     } else {
-      res.send({ error: "Wrong format" });
+      res.json({ error: "Wrong format" });
     }
   });
 });
