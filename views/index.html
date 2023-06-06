@@ -13,6 +13,10 @@
 
   <body>
     <h1>URL Shortener Microservice</h1>
+    <h2>Short URL Creation</h2>
+    <p>Example: 
+      <code>POST [project_url]/api/shorturl</code> - <code>https://www.google.com</code>
+    </p>
     <main>
       <section>
         <form action="api/shorturl" method="POST">
@@ -24,6 +28,10 @@
           </fieldset>
         </form>
       </section>
+      <h2>Example Usage:</h2>
+      <a href="/api/shorturl/0">[project_url]/api/shorturl/0</a>
+      <h3>Will Redirect to:</h3>
+      <p>https://www.example.com</p>
     </main>
     <footer>
       <p>By <a href="https://www.freecodecamp.org/">freeCodeCamp</a></p>
