@@ -10,7 +10,7 @@ const validUrl = require("valid-url");
 // Defining shortUrl model
 const shortUrlSchema = {
   original_url: { type: String, required: true, unique: true },
-  shortUrl: { type: Number, unique: true },
+  short_url: { type: Number, unique: true },
 };
 
 const ShortUrl = mongoose.model("ShortUrl", shortUrlSchema);
@@ -56,22 +56,22 @@ app.post("/api/shorturl", (req, res) => {
         if (data[0]) {
           res.json({
             original_url: data[0]["original_url"],
-            shortUrl: data[0]["shortUrl"],
+            short_url: data[0]["short_url"],
           });
         } else {
           // The new url will be added to the DB
 
           ShortUrl.aggregate([
-            { $sort: { shortUrl: -1 } },
+            { $sort: { short_url: -1 } },
             { $limit: 1 },
             { $project: { _id: 0 } },
           ]).then((data) => {
             const original_url = req.body.url;
-            const shortUrl = data[0].shortUrl + 1;
-            const newShortUrl = new ShortUrl({ original_url, shortUrl });
+            const short_url = data[0].short_url + 1;
+            const newShortUrl = new ShortUrl({ original_url, short_url });
             //console.log(newShortUrl);
             newShortUrl.save();
-            res.json({ original_url, shortUrl });
+            res.json({ original_url, short_url });
           });
         }
       });
@@ -80,8 +80,8 @@ app.post("/api/shorturl", (req, res) => {
 });
 
 //Fetching url from the url shortener API
-app.get("/api/shorturl/:shortUrl", (req, res) => {
-  ShortUrl.find({ shortUrl: req.params.shortUrl }).then((data) => {
+app.get("/api/shorturl/:short_url", (req, res) => {
+  ShortUrl.find({ short_url: req.params.short_url }).then((data) => {
     if (data[0]) {
       res.redirect(data[0]["original_url"]);
     } else {
