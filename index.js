@@ -38,11 +38,9 @@ app.get("/api/hello", function (req, res) {
 //ADDING a new URL to the DB.
 app.post("/api/shorturl", (req, res) => {
   const regexCheck = validUrl.isUri(req.body.url);
-  console.log(regexCheck);
-  let urlToCheck = req.body.url.toLowerCase().split(/^https?:\/\/www\./)[1];
-  if (/\/+$/.test(urlToCheck)) {
-    urlToCheck = urlToCheck.split(/\/+/)[0];
-  }
+  const urlToCheck = new URL(regexCheck).hostname;
+  console.log(urlToCheck);
+
   // The urlToCheck is the DNS, the hostname.
 
   dns.lookup(urlToCheck, (err, addresses, family) => {
