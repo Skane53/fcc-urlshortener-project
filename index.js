@@ -42,10 +42,9 @@ app.post("/api/shorturl", (req, res) => {
   if (/\/+$/.test(urlToCheck)) {
     urlToCheck = urlToCheck.split(/\/+/)[0];
   }
-  urlToCheck = urlToCheck.toLowerCase();
   // The urlToCheck is the DNS, the hostname.
 
-  dns.lookup(urlToCheck, (err, addresses, family) => {
+  dns.lookup(urlToCheck.toLowerCase(), (err, addresses, family) => {
     // if URL not valid, return error object.
     //console.log(err);
     if (err || req.body.url == false || !regexCheck) {
