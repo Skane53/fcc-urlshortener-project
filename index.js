@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dns = require("dns");
+const validUrl = require("valid-url");
 
 // Defining shortUrl model
 const shortUrlSchema = {
@@ -36,9 +37,9 @@ app.get("/api/hello", function (req, res) {
 
 //ADDING a new URL to the DB.
 app.post("/api/shorturl", (req, res) => {
-  const regexCheck = /^https?:\/\/www\./.test(req.body.url);
-  //console.log(regexCheck);
-  let urlToCheck = req.body.url.split(/^https?:\/\/www\./)[1];
+  const regexCheck = validUrl.isUri(req.body.url);
+  console.log(regexCheck);
+  let urlToCheck = req.body.url.toLowerCase().split(/^https?:\/\/www\./)[1];
   if (/\/+$/.test(urlToCheck)) {
     urlToCheck = urlToCheck.split(/\/+/)[0];
   }
@@ -48,6 +49,7 @@ app.post("/api/shorturl", (req, res) => {
     // if URL not valid, return error object.
     //console.log(err);
     if (err || req.body.url == false || !regexCheck) {
+      //console.log(!regexCheck);
       res.json({ error: "invalid url" });
     } else {
       // If the url is already in the DB, the program will return it with the short url already added
