@@ -5,7 +5,6 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dns = require("dns");
-const { Console } = require("console");
 
 // Defining shortUrl model
 const shortUrlSchema = {
