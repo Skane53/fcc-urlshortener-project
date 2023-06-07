@@ -37,8 +37,13 @@ app.get("/api/hello", function (req, res) {
 
 //ADDING a new URL to the DB.
 app.post("/api/shorturl", (req, res) => {
-  const regexCheck = validUrl.isUri(req.body.url);
-  const urlToCheck = new URL(regexCheck).hostname;
+  const urlIsValid = validUrl.isUri(req.body.url);
+  try {
+    new URL(urlIsValid);
+  } catch (error) {
+    return res.json({ error: "invalid url" });
+  }
+  const urlToCheck = new URL(urlIsValid).hostname;
   //console.log(urlToCheck);
 
   // The urlToCheck is the DNS, the hostname.
@@ -46,8 +51,8 @@ app.post("/api/shorturl", (req, res) => {
   dns.lookup(urlToCheck, (err, addresses, family) => {
     // if URL not valid, return error object.
     //console.log(err);
-    if (err || req.body.url == false || !regexCheck) {
-      //console.log(!regexCheck);
+    if (err || req.body.url == false || !urlIsValid) {
+      //console.log(!urlIsValid);
       res.json({ error: "invalid url" });
     } else {
       // If the url is already in the DB, the program will return it with the short url already added
